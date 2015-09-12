@@ -25,30 +25,18 @@ You would also need to setup a local smtp server if you want to be emailed (see 
 
 <b>Data File:</b>
 
-'numberItems': 1
-
-'requestedTask': 'DTM'
-
-'safetyCourseCompletedSelection': 'TRUE'
-
-'firstName': YOUR_FIRST_NAME
-
-'lastName': YOUR_LAST_NAME
-
-'dlNumber': DRIVER_LICENSE_NUMBER
-
-'birthMonth': BIRTH_MONTH (append 0 if single digit)
-
-'birthDay': BIRTH_DAY
-
-'birthYear': BIRTH_YEAR
-
-'telArea': TELEPHONE_AREA_CODE
-
-'telPrefix': TELEPHONE_PREFIX
-
-'telSuffix': TELEPHONE_SUFFIX
-
-'resetCheckFields': true
+    'numberItems': 1
+    'requestedTask': 'DTM'
+    'safetyCourseCompletedSelection': 'TRUE'
+    'firstName': YOUR_FIRST_NAME
+    'lastName': YOUR_LAST_NAME
+    'dlNumber': DRIVER_LICENSE_NUMBER
+    'birthMonth': BIRTH_MONTH (append 0 if single digit)
+    'birthDay': BIRTH_DAY
+    'birthYear': BIRTH_YEAR
+    'telArea': TELEPHONE_AREA_CODE
+    'telPrefix': TELEPHONE_PREFIX
+    'telSuffix': TELEPHONE_SUFFIX
+    'resetCheckFields': true
 
 

@@ -1,2 +1,4 @@
 *.pyc
 .DS_Store
+gmail_creds.yaml
+dmv_data.yaml

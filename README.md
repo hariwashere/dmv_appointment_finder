@@ -10,8 +10,6 @@ You can install them with:
 
     sudo easy_install (package_name)
 
-You would also need to setup a local smtp server if you want to be emailed (see http://stackoverflow.com/questions/14570471/local-smtp-server-to-send-mail)
-
 <b>Usage:</b>
 
     python dmv.py (Options)
@@ -19,9 +17,10 @@ You would also need to setup a local smtp server if you want to be emailed (see 
 <b>Options:</b>
 
     -e, --email-address - Email address where you want the updates to be sent (Needs a local smtp server)
-    -d, --data-file - A .yaml file containing your details. See format below
     -s, --sleep-time - Time to sleep before retrying
     -m, --maximum-tries - Maximum number of retries
+
+You will also need to include a dmv_data.yaml and gmail_creds.yaml in the same folder as the script containing your license information and your gmail credentials so that the script can send a mail
 
 <b>Data File:</b>
 
@@ -40,3 +39,7 @@ You would also need to setup a local smtp server if you want to be emailed (see 
     'resetCheckFields': true
 
 
+<b>Gmail Credentials </b>
+
+    username: USERNAME
+    password: ********

@@ -24,6 +24,7 @@ MAX_DATETIME = datetime.max
 BEST_OFFICE = ''
 MAX_EXCEPTIONS = 5
 
+
 def get_first_appointment_date(form_data, office_id):
     form_data['officeId'] = office_id
     response = requests.post(APPOINTMENT_URL, data=form_data)
@@ -49,6 +50,7 @@ def send_success_email(available_datetime, office, to_address):
         to_address
     )
 
+
 def send_failure_email(exception_string, to_address):
     from_address = 'dmvscript@example.com'
     send_email (
@@ -57,16 +59,25 @@ def send_failure_email(exception_string, to_address):
         to_address
     )
 
+
 def send_email(message_str, from_address, to_address):
     print message_str
     if not to_address:
         return
-    msg = MIMEText(message_str)
-    msg['From'] = from_address
-    msg['To'] = to_address
-    smtp_server = smtplib.SMTP('localhost')
-    smtp_server.sendmail(from_address, [to_address], msg.as_string())
-    smtp_server.quit()
+
+    # The actual mail send
+    username, password = get_gmail_creds()
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(fromaddr, toaddrs, msg)
+    server.quit()
+
+
+def get_gmail_creds():
+    gmail_creds_file = file('gmail_creds.yaml', 'r')
+    gmail_creds = yaml.load(data_file)
+    return gmail_creds['username'], gmail_creds['password']
 
 
 def find_best_available_date(form_data, current_best, best_office, to_address):
@@ -79,6 +90,10 @@ def find_best_available_date(form_data, current_best, best_office, to_address):
             better_result_found = True
             current_best = first_available_date
             best_office = OFFICE_IDS[office_id]
+        elif (best_office == OFFICE_IDS[office_id]):
+            # Whelp! somebody claimed the prev spot. Reset everything
+            current_best = MAX_DATETIME
+            best_office = ''
 
     if (better_result_found):
         send_success_email(current_best, best_office, to_address)
@@ -87,30 +102,27 @@ def find_best_available_date(form_data, current_best, best_office, to_address):
 
 
 def parse_cmd_line_args(argv):
-    data_file = 'dmv_data_sample.yaml'
     sleep_time = 10
     email_address = ''
     max_tries = 100
     try:
-      opts, args = getopt.getopt(argv,"d:s:e:m:",["data-file=", "sleep-time=", "email-address=", "max-tries"])
+      opts, args = getopt.getopt(argv,"s:e:m:",["sleep-time=", "email-address=", "max-tries"])
     except getopt.GetoptError:
-        print "dmv.py -d <data-file> -s <sleep-time> (in mins) -e <email-address> -m <max-tries>"
+        print "dmv.py -s <sleep-time> (in mins) -e <email-address> -m <max-tries>"
         exit()
     for opt, arg in opts:
-        if opt in ('-d', '--data-file'):
-            data_file = arg
-        elif opt in ('-s', '--sleep-time'):
+        if opt in ('-s', '--sleep-time'):
             sleep_time = float(arg)
         elif opt in ('-e', '--email-address'):
             email_address = arg
         elif opt in ('-m', '--max-tries'):
             max_tries = int(arg)
-    return data_file, sleep_time, email_address, max_tries
+    return sleep_time, email_address, max_tries
 
 
 def run(argv):
-    data_file, sleep_time, to_address, max_tries = parse_cmd_line_args(argv)
-    data_file = file(data_file, 'r')
+    sleep_time, to_address, max_tries = parse_cmd_line_args(argv)
+    data_file = file('dmv_data.yaml', 'r')
     form_data = yaml.load(data_file)
     data_file.close()
     current_best = MAX_DATETIME

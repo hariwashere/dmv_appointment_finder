@@ -16,11 +16,11 @@ You can install them with:
 
 <b>Options:</b>
 
-    -e, --email-address - Email address where you want the updates to be sent (Needs a local smtp server)
+    -e, --email-address - Email address where you want the updates to be sent.
     -s, --sleep-time - Time to sleep before retrying
     -m, --maximum-tries - Maximum number of retries
 
-You will also need to include a dmv_data.yaml and gmail_creds.yaml in the same folder as the script containing your license information and your gmail credentials so that the script can send a mail
+You will also need to include a dmv_data.yaml and gmail_creds.yaml in the same folder as the script containing your license information and your gmail credentials so that the script can send a mail. Owing to gmail's security you might want to turn on access to less secure apps here: https://www.google.com/settings/security/lesssecureapps
 
 <b>Data File:</b>
 
